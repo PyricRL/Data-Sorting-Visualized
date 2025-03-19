@@ -1,11 +1,11 @@
 import random
 
-from sortingUtils import *
+import sortingUtils
+from sortingUtils import isSorted, wait
 
 def bogoSort(array, delay):
-    global swaps, comparisons
-    while not isSorted(array):
+    while not isSorted(array) and sortingUtils.sorting:
         wait(delay)
-        swaps += 1
+        sortingUtils.swaps += 1
         random.shuffle(array)
         yield

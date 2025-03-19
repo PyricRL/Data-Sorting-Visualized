@@ -7,6 +7,8 @@ def isSorted(array):
     return True
 
 def wait(delayMS):
+    if delayMS <= 0:
+        return None
     end_time = time.perf_counter() + (delayMS / 1000.0)
     while time.perf_counter() < end_time:
         pass

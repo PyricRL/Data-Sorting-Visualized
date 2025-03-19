@@ -3,7 +3,7 @@ import random
 
 pygame.init()
 
-from sortingUtils import *
+import sortingUtils
 from bubbleSortAlgorithm import bubbleSort
 from bogoSortAlgorithm import bogoSort
 
@@ -28,9 +28,9 @@ def showDataToScreen(array):
         rect = (x * gap, HEIGHT - (array[x] * scaleFactor), gap - 1, array[x] * scaleFactor)
         pygame.draw.rect(SCREEN, "white", rect)
 
-def displayStats(swaps, comparisons):
+def displayStats():
     font = pygame.font.SysFont('Times New Roman', 20)
-    stats_text = font.render(f"Swaps: {swaps} | Comparisons: {comparisons}", True, (255, 255, 255))
+    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons}", True, (255, 255, 255))
     SCREEN.fill("black", (10, 10, 1000, 30))
     SCREEN.blit(stats_text, (10, 10))
 
@@ -38,11 +38,11 @@ def main():
     running = True
 
     sortingAlgorithms = {
-    "Bubble Sort": bubbleSort,
-    "Bogo Sort": bogoSort,
+    "Bubblesort": bubbleSort,
+    "Bogosort": bogoSort,
     }
 
-    selectedSort = "Bubble Sort"
+    selectedSort = "Bubblesort"
     generator = sortingAlgorithms[selectedSort]
     generatorFunc = generator(data, 0)
 
@@ -52,14 +52,17 @@ def main():
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    try:
-                        next(generatorFunc)
-                    except StopIteration:
-                        pass
+                    sortingUtils.sorting = not sortingUtils.sorting
+        
+        if sortingUtils.sorting:
+            try:
+                next(generatorFunc)
+            except StopIteration:
+                sortingUtils.sorting = False
         SCREEN.fill("black")
 
         showDataToScreen(data)
-        displayStats(swaps, comparisons)
+        displayStats()
         pygame.display.flip()
 
 if __name__ == "__main__":
