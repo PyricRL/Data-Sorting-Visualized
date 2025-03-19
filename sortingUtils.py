@@ -13,4 +13,5 @@ def wait(delayMS):
 
 sorting = False
 
-elapsedTime = 0.0
+swaps = 0
+comparisons = 0
