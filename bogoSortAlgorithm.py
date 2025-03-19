@@ -1,6 +1,6 @@
 import random
 
-from sortingUtils import isSorted
+from sortingUtils import *
 
 def bogoSort(array):
     while not isSorted(array):

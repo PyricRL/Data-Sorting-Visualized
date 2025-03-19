@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from sortingUtils import *
 from bubbleSortAlgorithm import bubbleSort
 from bogoSortAlgorithm import bogoSort
 
@@ -17,7 +18,7 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(10)
+createTestData(100)
 
 def showDataToScreen(array):
     SCREEN.fill("black")
@@ -27,18 +28,35 @@ def showDataToScreen(array):
         pygame.draw.rect(SCREEN, "white", rect)
 
 def main():
+    global sorting
     running = True
+    sorting = False
+
+    sortingAlgorithms = {
+    "Bubble Sort": bubbleSort,
+    "Bogo Sort": bogoSort,
+    }
+
+    selectedSort = "Bubble Sort"
+    generator = sortingAlgorithms[selectedSort]
+    generatorFunc = generator(data, 500)
 
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                sorting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    sorting = True
+                    try:
+                        next(generatorFunc)
+                    except StopIteration:
+                        sorting = False
+        SCREEN.fill("black")
 
         showDataToScreen(data)
-
         pygame.display.flip()
-
-    bogoSort(data)
 
 if __name__ == "__main__":
     main()
