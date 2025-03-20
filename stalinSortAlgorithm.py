@@ -9,8 +9,10 @@ def stalinSort(array, delay):
     while not isSorted(array):
         while i < len(array) - 1:
             sortingUtils.comparisons += 1
+            sortingUtils.comparedIndices.clear()
             sortingUtils.selectedIndices.clear()
             if array[i] > array[i + 1]:
+                sortingUtils.comparedIndices.append(i + 1)
                 sortingUtils.selectedIndices.append(i)
                 array.pop(i + 1)
                 sortingUtils.swapDataSound.play()

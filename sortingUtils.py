@@ -23,7 +23,6 @@ def colorDataSet(array, length):
     for i in range(length):
         selectedIndices.append(array[i] - 1)
         finishDataSound.play()
-        wait(5)
         yield
     yield
 
@@ -45,3 +44,5 @@ swapDataSound.set_volume(0.1)
 
 finishDataSound = pygame.mixer.Sound('audio/dataFinish.wav')
 finishDataSound.set_volume(0.1)
+
+algorithmName = ""

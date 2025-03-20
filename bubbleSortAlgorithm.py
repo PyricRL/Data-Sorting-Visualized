@@ -14,10 +14,10 @@ def bubbleSort(array, delay):
                 sortingUtils.selectedIndices.clear()
                 sortingUtils.comparedIndices.clear()
 
-                sortingUtils.selectedIndices.append(j + 1)
+                sortingUtils.selectedIndices.append(j)
                 if array[j] > array[j + 1]:
                     sortingUtils.swaps += 1
-                    sortingUtils.comparedIndices.append(j)
+                    sortingUtils.comparedIndices.append(j + 1)
                     array[j], array[j + 1] = array[j + 1], array[j]
                     sortingUtils.swapDataSound.play()
                     swapped = True

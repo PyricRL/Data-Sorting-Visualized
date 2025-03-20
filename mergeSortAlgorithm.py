@@ -5,17 +5,22 @@ from sortingUtils import isSorted, wait
 
 startTime = 0
 
-def mergeSort(data, left, mid, right):
+def mergeSort(array, delay, left, right):
     global startTime
-    startTime = time.perf_counter()
+    if left == 0 and right == len(array) - 1:
+        startTime = time.perf_counter()
+
     if left < right:
         mid = (left + right) // 2
 
-        yield from mergeSort(data, left, mid)
-        yield from mergeSort(data, mid + 1, right)
-        yield from merge(data, left, mid, right)
+        yield from mergeSort(array, delay, left, mid)
+        yield from mergeSort(array, delay, mid + 1, right)
+        yield from merge(array, delay, left, mid, right)
 
-def merge(array, left, mid, right, delay):
+    if left == 0 and right == len(array) - 1:
+        sortingUtils.sortTimeVisual = time.perf_counter() - startTime
+
+def merge(array, delay, left, mid, right):
     global startTime
     if not isSorted(array):
         n1 = mid - left + 1
@@ -38,7 +43,8 @@ def merge(array, left, mid, right, delay):
             sortingUtils.comparedIndices.clear()
             sortingUtils.selectedIndices.clear()
 
-            sortingUtils.comparedIndices.append(left + 1, mid + 1 + j)
+            sortingUtils.selectedIndices.append(k)
+            sortingUtils.comparedIndices.append(left + i)
             sortingUtils.comparisons += 1
             if L[i] <= R[j]:
                 array[k] = L[i]
@@ -46,6 +52,7 @@ def merge(array, left, mid, right, delay):
             else:
                 array[k] = R[j]
                 j += 1
+                sortingUtils.comparedIndices.append(mid + 1 + j)
                 sortingUtils.swaps += 1
                 sortingUtils.swapDataSound.play()
             sortingUtils.sortTimeVisual = time.perf_counter() - startTime
@@ -54,7 +61,8 @@ def merge(array, left, mid, right, delay):
             wait(delay)
 
         while i < n1:
-            sortingUtils.selectedIndices.append(i)
+            sortingUtils.selectedIndices.append(k)
+            sortingUtils.comparedIndices.append(left + i)
             array[k] = L[i]
             i += 1
             k += 1
@@ -64,7 +72,8 @@ def merge(array, left, mid, right, delay):
             wait(delay)
 
         while j < n2:
-            sortingUtils.selectedIndices.append(j)
+            sortingUtils.selectedIndices.append(k)
+            sortingUtils.comparedIndices.append(mid + 1 + i)
             array[k] = R[j]
             j += 1
             k += 1
@@ -73,16 +82,22 @@ def merge(array, left, mid, right, delay):
             yield
             wait(delay)
 
-def mergeSortNoVisible(data, left, mid, right):
+def mergeSortNoVisible(array, left, right):
     global startTime
-    startTime = time.perf_counter()
+    timeArray = array.copy()
+
+    if left == 0 and right == len(array) - 1:
+        startTime = time.perf_counter()
+
     if left < right:
         mid = (left + right) // 2
 
-        yield from mergeSortNoVisible(data, left, mid)
-        yield from mergeSortNoVisible(data, mid + 1, right)
-        yield from mergeNoVisible(data, left, mid, right)
-    sortingUtils.sortTimeVisual = time.perf_counter() - startTime
+        mergeSortNoVisible(timeArray, left, mid)
+        mergeSortNoVisible(timeArray, mid + 1, right)
+        mergeNoVisible(timeArray, left, mid, right)
+
+    if left == 0 and right == len(array) - 1:
+        sortingUtils.sortTime = time.perf_counter() - startTime
 
 def mergeNoVisible(array, left, mid, right):
     if not isSorted(array):
@@ -110,16 +125,13 @@ def mergeNoVisible(array, left, mid, right):
                 array[k] = R[j]
                 j += 1
             k += 1
-            yield
 
         while i < n1:
             array[k] = L[i]
             i += 1
             k += 1
-            yield
 
         while j < n2:
             array[k] = R[j]
             j += 1
             k += 1
-            yield

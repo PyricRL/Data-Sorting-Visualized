@@ -5,19 +5,19 @@ pygame.init()
 
 import sortingUtils
 from sortingUtils import colorDataSet
-from algorithms.bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
-from algorithms.bogoSortAlgorithm import bogoSort, bogoSortNoVisible
-from algorithms.miracleSortAlgorithm import miracleSort, miracleSortNoVisible
-from algorithms.stalinSortAlgorithm import stalinSort, stalinSortNoVisible
-from algorithms.selectionSortAlgorithm import selectionSort, selectionSortNoVisible
-from algorithms.mergeSortAlgorithm import mergeSort, mergeSortNoVisible
+from bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
+from bogoSortAlgorithm import bogoSort, bogoSortNoVisible
+from miracleSortAlgorithm import miracleSort, miracleSortNoVisible
+from stalinSortAlgorithm import stalinSort, stalinSortNoVisible
+from selectionSortAlgorithm import selectionSort, selectionSortNoVisible
+from mergeSortAlgorithm import mergeSort, mergeSortNoVisible
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 data = []
 
-delay = 0
+delay = 100
 
 def createTestData(length):
     for x in range(length):
@@ -25,7 +25,7 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(2048)
+createTestData(50)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
@@ -39,12 +39,12 @@ def showDataToScreen(array):
         else:
             color = "white"
         #array[x] * scaleFactor
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 2, 2)
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), gap, array[x] * scaleFactor)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
     font = pygame.font.SysFont('Times New Roman', 20)
-    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons} | Visual Delay: {delay}ms | Visual Time: {sortingUtils.sortTimeVisual: .2f}s | Sort Time: {sortingUtils.sortTime * 1000: .2f} ms", True, (255, 255, 255))
+    stats_text = font.render(f"Algorithm: {sortingUtils.algorithmName} | Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons} | Visual Delay: {delay}ms | Visual Time: {sortingUtils.sortTimeVisual: .2f}s | Sort Time: {sortingUtils.sortTime * 1000: .5f} ms", True, (255, 255, 255))
     SCREEN.blit(stats_text, (10, 10))
 
 def main():
@@ -59,9 +59,12 @@ def main():
     "Mergesort": mergeSort
     }
 
-    selectedSort = "Mergesort"
+    selectedSort = "Stalinsort"
     generator = sortingAlgorithms[selectedSort]
-    generatorFunc = generator(data, delay)
+    if selectedSort == "Mergesort":
+        generatorFunc = generator(data, delay, 0, len(data) - 1)
+    else:
+        generatorFunc = generator(data, delay)
     sortingUtils.colorAnim = None
 
     if selectedSort == "Bubblesort":
@@ -75,7 +78,9 @@ def main():
     elif selectedSort == "Selectionsort":
         selectionSortNoVisible(data)
     elif selectedSort == "Mergesort":
-        mergeSortNoVisible(data)
+        mergeSortNoVisible(data, 0, len(data) - 1)
+
+    sortingUtils.algorithmName = selectedSort
 
     while running:
         for event in pygame.event.get():
