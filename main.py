@@ -11,6 +11,7 @@ from miracleSortAlgorithm import miracleSort, miracleSortNoVisible
 from stalinSortAlgorithm import stalinSort, stalinSortNoVisible
 from selectionSortAlgorithm import selectionSort, selectionSortNoVisible
 from mergeSortAlgorithm import mergeSort, mergeSortNoVisible
+from insertionSortAlgorithm import insertionSort, insertionSortNoVisible
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
