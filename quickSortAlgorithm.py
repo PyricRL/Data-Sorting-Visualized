@@ -13,18 +13,16 @@ def partition(array, low, high, delay):
     pivot = array[high]
     i = low - 1
 
-    # Track the pivot as the selected element
-    sortingUtils.selectedIndices = [high]  # This is where the pivot is selected
+    sortingUtils.selectedIndices = [high] 
 
     for j in range(low, high):
         sortingUtils.comparisons += 1
         
-        # Add indices to comparedIndices to visualize comparisons
-        sortingUtils.comparedIndices = [j, high]  # Indices being compared
+        sortingUtils.comparedIndices = [j, high]
         
         if array[j] < pivot:
             i += 1
-            sortingUtils.comparedIndices = [i, j]  # These indices are compared and swapped
+            sortingUtils.comparedIndices = [i, j]
             array[i], array[j] = array[j], array[i]
             sortingUtils.swapDataSound.play()
             sortingUtils.swaps += 1
@@ -32,7 +30,6 @@ def partition(array, low, high, delay):
             yield
             wait(delay)
         
-        # Clear the compared and selected indices after each iteration
         sortingUtils.comparedIndices.clear()
         sortingUtils.selectedIndices.clear()
 

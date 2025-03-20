@@ -21,7 +21,7 @@ def showDataToScreen(array):
         else:
             color = "white"
         #array[x] * scaleFactor
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, array[x] * scaleFactor)
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, 4)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():

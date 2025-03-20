@@ -58,4 +58,4 @@ algorithmName = ""
 
 currentSort = 1
 
-delay = 100
+delay = 0
