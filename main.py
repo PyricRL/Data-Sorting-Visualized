@@ -9,6 +9,7 @@ from bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
 from bogoSortAlgorithm import bogoSort, bogoSortNoVisible
 from miracleSortAlgorithm import miracleSort, miracleSortNoVisible
 from stalinSortAlgorithm import stalinSort, stalinSortNoVisible
+from selectionSortAlgorithm import selectionSort, selectionSortNoVisible
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -23,7 +24,7 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(1000)
+createTestData(100)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
@@ -36,7 +37,8 @@ def showDataToScreen(array):
             color = "green"
         else:
             color = "white"
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 2, array[x] * scaleFactor)
+        #array[x] * scaleFactor
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, 4)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
@@ -52,9 +54,10 @@ def main():
     "Bogosort": bogoSort,
     "Miraclesort": miracleSort,
     "Stalinsort": stalinSort,
+    "Selectionsort": selectionSort,
     }
 
-    selectedSort = "Miraclesort"
+    selectedSort = "Bogosort"
     generator = sortingAlgorithms[selectedSort]
     generatorFunc = generator(data, delay)
     sortingUtils.colorAnim = None
@@ -67,6 +70,8 @@ def main():
         miracleSortNoVisible(data)
     elif selectedSort == "Stalinsort":
         stalinSortNoVisible(data)
+    elif selectedSort == "Selectionsort":
+        selectionSortNoVisible(data)
 
     while running:
         for event in pygame.event.get():
