@@ -3,9 +3,10 @@ import random
 import sortingUtils
 from sortingUtils import isSorted, wait
 
-def bogoSort(array):
+def bogoSort(array, delay):
     while not isSorted(array) and sortingUtils.sorting:
-        wait(100)
+        wait(delay)
         sortingUtils.swaps += 1
         random.shuffle(array)
+        sortingUtils.swapDataSound.play()
         yield

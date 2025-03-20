@@ -18,11 +18,10 @@ def colorDataSet(array, length):
     selectedIndices.clear()
     comparedIndices.clear()
 
-    print(length)
-
     for i in range(length):
         selectedIndices.append(array[i] - 1)
-        wait(50)
+        finishDataSound.play()
+        wait(5)
         yield
     yield
 
@@ -35,3 +34,12 @@ colorAnim = None
 
 selectedIndices = []
 comparedIndices = []
+
+sortTime = 0
+sortTimeVisual = 0
+
+swapDataSound = pygame.mixer.Sound('audio/dataSort.wav')
+swapDataSound.set_volume(0.1)
+
+finishDataSound = pygame.mixer.Sound('audio/dataFinish.wav')
+finishDataSound.set_volume(0.1)

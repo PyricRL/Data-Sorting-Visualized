@@ -5,13 +5,16 @@ pygame.init()
 
 import sortingUtils
 from sortingUtils import colorDataSet
-from bubbleSortAlgorithm import bubbleSort
+from bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
 from bogoSortAlgorithm import bogoSort
+from miracleSortAlgorithm import miracleSort
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 data = []
+
+delay = 0
 
 def createTestData(length):
     for x in range(length):
@@ -19,12 +22,12 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(10)
+createTestData(100)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
     SCREEN.fill("black")
-    gap = WIDTH // len(array)
+    gap = WIDTH / len(array)
     for x in range(len(array)):
         if x in sortingUtils.comparedIndices:
             color = "red"
@@ -32,13 +35,12 @@ def showDataToScreen(array):
             color = "green"
         else:
             color = "white"
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), gap - 1, array[x] * scaleFactor)
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 2, array[x] * scaleFactor)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
     font = pygame.font.SysFont('Times New Roman', 20)
-    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons}", True, (255, 255, 255))
-    SCREEN.fill("black", (10, 10, 1000, 30))
+    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons} | Visual Delay: {delay}ms | Visual Time: {sortingUtils.sortTimeVisual: .2f}s | Sort Time: {sortingUtils.sortTime * 1000: .2f}ms", True, (255, 255, 255))
     SCREEN.blit(stats_text, (10, 10))
 
 def main():
@@ -47,12 +49,16 @@ def main():
     sortingAlgorithms = {
     "Bubblesort": bubbleSort,
     "Bogosort": bogoSort,
+    "Miraclesort": miracleSort,
     }
 
-    selectedSort = "Bogosort"
+    selectedSort = "Bubblesort"
     generator = sortingAlgorithms[selectedSort]
-    generatorFunc = generator(data, 0)
+    generatorFunc = generator(data, delay)
     sortingUtils.colorAnim = None
+
+    if selectedSort == "Bubblesort":
+        bubbleSortNoVisible(data)
 
     while running:
         for event in pygame.event.get():
@@ -70,7 +76,6 @@ def main():
                     next(sortingUtils.colorAnim)
             except StopIteration:
                 if sortingUtils.colorAnim is None:
-                        print("starting color anim")
                         sortingUtils.colorAnim = colorDataSet(data, len(data))
                 else:
                     sortingUtils.colorAnim = None
