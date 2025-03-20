@@ -5,7 +5,7 @@ from sortingUtils import wait
 
 startTime = 0
 
-def mergeSort(array, delay, left, right):
+def mergeSort(array, left, right, delay):
     global startTime
     if left == 0 and right == len(array) - 1:
         startTime = time.perf_counter()
@@ -13,13 +13,13 @@ def mergeSort(array, delay, left, right):
     if left < right:
         mid = (left + right) // 2
 
-        yield from mergeSort(array, delay, left, mid)
-        yield from mergeSort(array, delay, mid + 1, right)
-        yield from merge(array, delay, left, mid, right)
+        yield from mergeSort(array, left, mid, delay)
+        yield from mergeSort(array, mid + 1, right, delay)
+        yield from merge(array, left, mid, right, delay)
     if left == 0 and right == len(array) - 1:
         sortingUtils.sortTimeVisual = time.perf_counter() - startTime
 
-def merge(array, delay, left, mid, right):
+def merge(array, left, mid, right, delay):
     global startTime
     n1 = mid - left + 1
     n2 = right - mid
