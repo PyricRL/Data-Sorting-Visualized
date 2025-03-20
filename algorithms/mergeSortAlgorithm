@@ -1,0 +1,125 @@
+import time
+
+import sortingUtils
+from sortingUtils import isSorted, wait
+
+startTime = 0
+
+def mergeSort(data, left, mid, right):
+    global startTime
+    startTime = time.perf_counter()
+    if left < right:
+        mid = (left + right) // 2
+
+        yield from mergeSort(data, left, mid)
+        yield from mergeSort(data, mid + 1, right)
+        yield from merge(data, left, mid, right)
+
+def merge(array, left, mid, right, delay):
+    global startTime
+    if not isSorted(array):
+        n1 = mid - left + 1
+        n2 = right - mid
+
+        L = [0] * n1
+        R = [0] * n2
+
+        for i in range(n1):
+            L[i] = array[left + i]
+
+        for j in range(n2):
+            R[j] = array[mid + 1 + j]
+
+        i = 0 
+        j = 0
+        k = left 
+
+        while i < n1 and j < n2:
+            sortingUtils.comparedIndices.clear()
+            sortingUtils.selectedIndices.clear()
+
+            sortingUtils.comparedIndices.append(left + 1, mid + 1 + j)
+            sortingUtils.comparisons += 1
+            if L[i] <= R[j]:
+                array[k] = L[i]
+                i += 1
+            else:
+                array[k] = R[j]
+                j += 1
+                sortingUtils.swaps += 1
+                sortingUtils.swapDataSound.play()
+            sortingUtils.sortTimeVisual = time.perf_counter() - startTime
+            k += 1
+            yield
+            wait(delay)
+
+        while i < n1:
+            sortingUtils.selectedIndices.append(i)
+            array[k] = L[i]
+            i += 1
+            k += 1
+            sortingUtils.swaps += 1
+            sortingUtils.swapDataSound.play()
+            yield
+            wait(delay)
+
+        while j < n2:
+            sortingUtils.selectedIndices.append(j)
+            array[k] = R[j]
+            j += 1
+            k += 1
+            sortingUtils.swaps += 1
+            sortingUtils.swapDataSound.play()
+            yield
+            wait(delay)
+
+def mergeSortNoVisible(data, left, mid, right):
+    global startTime
+    startTime = time.perf_counter()
+    if left < right:
+        mid = (left + right) // 2
+
+        yield from mergeSortNoVisible(data, left, mid)
+        yield from mergeSortNoVisible(data, mid + 1, right)
+        yield from mergeNoVisible(data, left, mid, right)
+    sortingUtils.sortTimeVisual = time.perf_counter() - startTime
+
+def mergeNoVisible(array, left, mid, right):
+    if not isSorted(array):
+        n1 = mid - left + 1
+        n2 = right - mid
+
+        L = [0] * n1
+        R = [0] * n2
+
+        for i in range(n1):
+            L[i] = array[left + i]
+
+        for j in range(n2):
+            R[j] = array[mid + 1 + j]
+
+        i = 0 
+        j = 0
+        k = left 
+
+        while i < n1 and j < n2:
+            if L[i] <= R[j]:
+                array[k] = L[i]
+                i += 1
+            else:
+                array[k] = R[j]
+                j += 1
+            k += 1
+            yield
+
+        while i < n1:
+            array[k] = L[i]
+            i += 1
+            k += 1
+            yield
+
+        while j < n2:
+            array[k] = R[j]
+            j += 1
+            k += 1
+            yield

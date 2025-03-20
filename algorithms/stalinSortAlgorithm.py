@@ -13,6 +13,7 @@ def stalinSort(array, delay):
             if array[i] > array[i + 1]:
                 sortingUtils.selectedIndices.append(i)
                 array.pop(i + 1)
+                sortingUtils.swapDataSound.play()
                 sortingUtils.sortTimeVisual = time.perf_counter() - startTime
                 yield
             else:

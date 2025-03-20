@@ -5,11 +5,12 @@ pygame.init()
 
 import sortingUtils
 from sortingUtils import colorDataSet
-from bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
-from bogoSortAlgorithm import bogoSort, bogoSortNoVisible
-from miracleSortAlgorithm import miracleSort, miracleSortNoVisible
-from stalinSortAlgorithm import stalinSort, stalinSortNoVisible
-from selectionSortAlgorithm import selectionSort, selectionSortNoVisible
+from algorithms.bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
+from algorithms.bogoSortAlgorithm import bogoSort, bogoSortNoVisible
+from algorithms.miracleSortAlgorithm import miracleSort, miracleSortNoVisible
+from algorithms.stalinSortAlgorithm import stalinSort, stalinSortNoVisible
+from algorithms.selectionSortAlgorithm import selectionSort, selectionSortNoVisible
+from algorithms.mergeSortAlgorithm import mergeSort, mergeSortNoVisible
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -24,7 +25,7 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(100)
+createTestData(2048)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
@@ -38,7 +39,7 @@ def showDataToScreen(array):
         else:
             color = "white"
         #array[x] * scaleFactor
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, 4)
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 2, 2)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
@@ -55,9 +56,10 @@ def main():
     "Miraclesort": miracleSort,
     "Stalinsort": stalinSort,
     "Selectionsort": selectionSort,
+    "Mergesort": mergeSort
     }
 
-    selectedSort = "Bogosort"
+    selectedSort = "Mergesort"
     generator = sortingAlgorithms[selectedSort]
     generatorFunc = generator(data, delay)
     sortingUtils.colorAnim = None
@@ -72,6 +74,8 @@ def main():
         stalinSortNoVisible(data)
     elif selectedSort == "Selectionsort":
         selectionSortNoVisible(data)
+    elif selectedSort == "Mergesort":
+        mergeSortNoVisible(data)
 
     while running:
         for event in pygame.event.get():

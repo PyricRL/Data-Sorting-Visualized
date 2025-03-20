@@ -20,6 +20,7 @@ def selectionSort(array, delay):
                     minIdx = j
                     sortingUtils.selectedIndices.append(minIdx)
                     sortingUtils.comparedIndices.append(i)
+                    sortingUtils.swapDataSound.play()
                 sortingUtils.sortTimeVisual = time.perf_counter() - startTime
             
             array[i], array[minIdx] = array[minIdx], array[i]
