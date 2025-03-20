@@ -4,6 +4,7 @@ import random
 pygame.init()
 
 import sortingUtils
+from sortingUtils import colorDataSet
 from bubbleSortAlgorithm import bubbleSort
 from bogoSortAlgorithm import bogoSort
 
@@ -18,15 +19,21 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(100)
+createTestData(10)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
     SCREEN.fill("black")
     gap = WIDTH // len(array)
     for x in range(len(array)):
+        if x in sortingUtils.comparedIndices:
+            color = "red"
+        elif x in sortingUtils.selectedIndices:
+            color = "green"
+        else:
+            color = "white"
         rect = (x * gap, HEIGHT - (array[x] * scaleFactor), gap - 1, array[x] * scaleFactor)
-        pygame.draw.rect(SCREEN, "white", rect)
+        pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
     font = pygame.font.SysFont('Times New Roman', 20)
@@ -42,9 +49,10 @@ def main():
     "Bogosort": bogoSort,
     }
 
-    selectedSort = "Bubblesort"
+    selectedSort = "Bogosort"
     generator = sortingAlgorithms[selectedSort]
     generatorFunc = generator(data, 0)
+    sortingUtils.colorAnim = None
 
     while running:
         for event in pygame.event.get():
@@ -56,9 +64,18 @@ def main():
         
         if sortingUtils.sorting:
             try:
-                next(generatorFunc)
+                if sortingUtils.colorAnim is None:
+                    next(generatorFunc)
+                else:
+                    next(sortingUtils.colorAnim)
             except StopIteration:
-                sortingUtils.sorting = False
+                if sortingUtils.colorAnim is None:
+                        print("starting color anim")
+                        sortingUtils.colorAnim = colorDataSet(data, len(data))
+                else:
+                    sortingUtils.colorAnim = None
+                    sortingUtils.sorting = False
+
         SCREEN.fill("black")
 
         showDataToScreen(data)
