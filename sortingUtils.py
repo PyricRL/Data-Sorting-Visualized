@@ -1,5 +1,6 @@
 import time
 import pygame
+import random
 
 pygame.init()
 
@@ -26,7 +27,15 @@ def colorDataSet(array, length):
         yield
     yield
 
+def createTestData(length):
+    for x in range(length):
+        data.append(x + 1)
+    
+    random.shuffle(data)
+
 sorting = False
+
+data = []
 
 swaps = 0
 comparisons = 0
@@ -46,3 +55,7 @@ finishDataSound = pygame.mixer.Sound('audio/dataFinish.wav')
 finishDataSound.set_volume(0.1)
 
 algorithmName = ""
+
+currentSort = 1
+
+delay = 0

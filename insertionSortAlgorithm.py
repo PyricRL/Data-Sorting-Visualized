@@ -4,17 +4,42 @@ import sortingUtils
 from sortingUtils import isSorted, wait
 
 def insertionSort(array, delay):
-    i = 1
-    while not isSorted(array):
-        while i < len(array):
-            k = i
-            while k > 0 and array[k - 1] > array[k]:
-                array[k - 1], array[k] = array[k], array[k - 1]
+    startTime = time.perf_counter()
+    while not isSorted(array) and sortingUtils.sorting:
+        for i in range(1, len(array)):
+            k = array[i]
+            j = i - 1
+
+            sortingUtils.selectedIndices.clear()
+            sortingUtils.comparedIndices.clear()
+
+            sortingUtils.comparedIndices.append(i)
+
+            sortingUtils.comparisons += 1
+            while j >= 0 and k < array[j]:
+                sortingUtils.selectedIndices.clear()
+                sortingUtils.selectedIndices.append(j)
+                array[j + 1] = array[j]
+                j -= 1
+                sortingUtils.swaps += 1
+                sortingUtils.swapDataSound.play()
+                sortingUtils.sortTimeVisual = time.perf_counter() - startTime
+
+            array[j + 1] = k
+            wait(delay)
+            yield
+
+def insertionSortNoVisible(array):
+    startTime = time.perf_counter()
+    while not isSorted(array) and sortingUtils.sorting:
+        for i in range(1, len(array)):
+            k = array[i]
+            j = i - 1
+
+            while j >= 0 and k < array[j]:
+                array[j + 1] = array[j]
+                j -= 1
+
+            array[j + 1] = k
     
-    i += 1
-
-data = [5, 3, 2, 1, 4]
-
-insertionSort(data, 1)
-
-print(data)
+    sortingUtils.sortTime = time.perf_counter() - startTime
