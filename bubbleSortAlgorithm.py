@@ -1,14 +1,13 @@
 import time
 
 import sortingUtils
-from sortingUtils import isSorted, wait, colorDataSet
+from sortingUtils import isSorted, wait
 
 def bubbleSort(array, delay):
     startTime = time.perf_counter()
     while not isSorted(array) and sortingUtils.sorting:
         for i in range(len(array)):
             for j in range(0, len(array) - i - 1):
-                wait(delay)
                 sortingUtils.comparisons += 1
 
                 sortingUtils.selectedIndices.clear()
@@ -22,6 +21,7 @@ def bubbleSort(array, delay):
                     sortingUtils.swapDataSound.play()
                     sortingUtils.sortTimeVisual = time.perf_counter() - startTime
                     yield
+                wait(delay)
 
 def bubbleSortNoVisible(array):
     timeArray = array.copy()

@@ -6,8 +6,9 @@ pygame.init()
 import sortingUtils
 from sortingUtils import colorDataSet
 from bubbleSortAlgorithm import bubbleSort, bubbleSortNoVisible
-from bogoSortAlgorithm import bogoSort
-from miracleSortAlgorithm import miracleSort
+from bogoSortAlgorithm import bogoSort, bogoSortNoVisible
+from miracleSortAlgorithm import miracleSort, miracleSortNoVisible
+from stalinSortAlgorithm import stalinSort, stalinSortNoVisible
 
 WIDTH, HEIGHT = 1280, 700
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -22,7 +23,7 @@ def createTestData(length):
     
     random.shuffle(data)
 
-createTestData(100)
+createTestData(1000)
 
 def showDataToScreen(array):
     scaleFactor = (HEIGHT - 50) / max(array)
@@ -40,7 +41,7 @@ def showDataToScreen(array):
 
 def displayStats():
     font = pygame.font.SysFont('Times New Roman', 20)
-    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons} | Visual Delay: {delay}ms | Visual Time: {sortingUtils.sortTimeVisual: .2f}s | Sort Time: {sortingUtils.sortTime * 1000: .2f}ms", True, (255, 255, 255))
+    stats_text = font.render(f"Swaps: {sortingUtils.swaps} | Comparisons: {sortingUtils.comparisons} | Visual Delay: {delay}ms | Visual Time: {sortingUtils.sortTimeVisual: .2f}s | Sort Time: {sortingUtils.sortTime * 1000: .2f} ms", True, (255, 255, 255))
     SCREEN.blit(stats_text, (10, 10))
 
 def main():
@@ -50,15 +51,22 @@ def main():
     "Bubblesort": bubbleSort,
     "Bogosort": bogoSort,
     "Miraclesort": miracleSort,
+    "Stalinsort": stalinSort,
     }
 
-    selectedSort = "Bubblesort"
+    selectedSort = "Miraclesort"
     generator = sortingAlgorithms[selectedSort]
     generatorFunc = generator(data, delay)
     sortingUtils.colorAnim = None
 
     if selectedSort == "Bubblesort":
         bubbleSortNoVisible(data)
+    elif selectedSort == "Bogosort":
+        bogoSortNoVisible(data)
+    elif selectedSort == "Miraclesort":
+        miracleSortNoVisible(data)
+    elif selectedSort == "Stalinsort":
+        stalinSortNoVisible(data)
 
     while running:
         for event in pygame.event.get():
