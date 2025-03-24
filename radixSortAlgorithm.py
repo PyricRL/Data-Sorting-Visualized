@@ -1,9 +1,14 @@
 import time
 
 import sortingUtils
-from sortingUtils import isSorted, wait
+from sortingUtils import wait
+
+startTime = 0
 
 def countingSort(array, exp1, delay):
+    global startTime
+    startTime = time.perf_counter()
+
     n = len(array)
 
     output = [0] * (n)
@@ -42,6 +47,7 @@ def countingSort(array, exp1, delay):
         sortingUtils.comparedIndices.append(i)
         yield
         wait(delay)
+        sortingUtils.sortTimeVisual = time.perf_counter() - startTime
 
 def radixSort(array, delay):
     max1 = max(array)

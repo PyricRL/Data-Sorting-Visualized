@@ -11,6 +11,7 @@ from quickSortAlgorithm import quickSort, quickSortNoVisible
 from cocktailSortAlgorithm import cocktailSort, cocktailSortNoVisible
 from heapSortAlgorithm import heapSort, heapSortNoVisible
 from radixSortAlgorithm import radixSort, radixSortNoVisible
+from countSortAlgorithm import countSort, countSortNoVisible
 
 class SortingManager:
     def __init__(self):
@@ -26,6 +27,7 @@ class SortingManager:
             "Cocktail Sort": (cocktailSort, cocktailSortNoVisible),
             "Heap Sort": (heapSort, heapSortNoVisible),
             "Radix Sort": (radixSort, radixSortNoVisible),
+            "Count Sort": (countSort, countSortNoVisible),
         }
 
         self.sortNames = list(self.sortingAlgorithms.keys())
