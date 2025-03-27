@@ -9,6 +9,9 @@ from mergeSortAlgorithm import mergeSort, mergeSortNoVisible
 from insertionSortAlgorithm import insertionSort, insertionSortNoVisible
 from quickSortAlgorithm import quickSort, quickSortNoVisible
 from cocktailSortAlgorithm import cocktailSort, cocktailSortNoVisible
+from heapSortAlgorithm import heapSort, heapSortNoVisible
+from radixSortAlgorithm import radixSort, radixSortNoVisible
+from countSortAlgorithm import countSort, countSortNoVisible
 
 class SortingManager:
     def __init__(self):
@@ -22,6 +25,9 @@ class SortingManager:
             "Insertion Sort": (insertionSort, insertionSortNoVisible),
             "Quick Sort": (quickSort, quickSortNoVisible),
             "Cocktail Sort": (cocktailSort, cocktailSortNoVisible),
+            "Heap Sort": (heapSort, heapSortNoVisible),
+            "Radix Sort": (radixSort, radixSortNoVisible),
+            "Count Sort": (countSort, countSortNoVisible),
         }
 
         self.sortNames = list(self.sortingAlgorithms.keys())
@@ -34,7 +40,7 @@ class SortingManager:
         self.algorithmName = self.sortNames[self.currentSortIndex]
         sortingUtils.algorithmName = self.algorithmName
         sortingUtils.data.clear()
-        createTestData(500)
+        createTestData(2048)
         sortingUtils.sorting = False
         sortingUtils.comparedIndices.clear()
         sortingUtils.selectedIndices.clear()

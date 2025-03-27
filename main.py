@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 import sortingUtils
-from sortingUtils import colorDataSet, createTestData
+from sortingUtils import colorDataSet, isSorted
 from sortingManager import SortingManager
 
 WIDTH, HEIGHT = 1280, 700
@@ -21,7 +21,7 @@ def showDataToScreen(array):
         else:
             color = "white"
         #array[x] * scaleFactor
-        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, 4)
+        rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 1, array[x] * scaleFactor)
         pygame.draw.rect(SCREEN, color, rect)
 
 def displayStats():
@@ -50,7 +50,10 @@ def handleEvents():
             return False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                sortingUtils.sorting = not sortingUtils.sorting
+                if isSorted(sortingUtils.data):
+                    print("already sorted")
+                else:
+                    sortingUtils.sorting = not sortingUtils.sorting
             if event.key == pygame.K_s:
                 sortingManager.switchSort()
     return True
