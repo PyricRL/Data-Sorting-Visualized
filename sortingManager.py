@@ -25,7 +25,7 @@ class SortingManager:
         }
 
         self.sortNames = list(self.sortingAlgorithms.keys())
-        self.currentSortIndex = 8
+        self.currentSortIndex = 0
         self.algorithmName = self.sortNames[self.currentSortIndex]
         self.generatorFunc = None
         self.resetSort()
