@@ -1,22 +1,19 @@
-Basic data sorting visualizer which can show data to the screen and show how fast it took visually and in code. 
+Data sorting visualizer using a python generator and pygame for visualization.
+Keybinds are shown on screen, as well as some statistics about each sorting algorithm.
+Don't expect this to be completely accurate, as my code is not very good, and python is slow.
 
-Work in progress, although I probably wont touch it much anymore as I am working on other projects.
+WIP:
+- Add easier adjustments of everything
+  - easier management of data
+  - easier adjusting visuals
+      - Switching between scatter plot and bar graph
+- Adding more sorting algorithms
 
-Editing:
-
-line 23-24 of `main.py` can be adjusted within the last 2 values of the rect
-
-```
-#array[x] * scaleFactor
-rect = (x * gap, HEIGHT - (array[x] * scaleFactor), 4, 4)
-                                                    ^  ^
-```
-The first one of these items adjusts how thick each data set is, and the second adjusts how high it is. 
-Adjusting them to both be the same results in a square (or dot depending on how big or small) and if you instead set the second value to the commented line the data will reach to the bottom of the screen and look like traditional data.
-
-Some of the sorting algorithms take longer than others, so to adjust how many pieces of data:
-in `sortingManager.py` on line 37:
-```createTestData(500)```
-adjust the value within this to increase or decreas the size of the data. Setting it to 1000 will create 1000 sets of data etc.
-
-There is also sound involved, so I would reccomend not blasting the audio :)
+Details:
+- How to clone:
+  - In visual studio code, the front page
+    ![image](https://github.com/user-attachments/assets/af916bc2-7037-48ff-80fc-64f614ec0731)
+  - Click clone git repository and enter `pyricRL/Data-Sorting-Visualized`
+  - From there, select your file location and click clone
+  - Wait for it to finish and once the below image pops up, click open
+    ![image](https://github.com/user-attachments/assets/eeb87585-6255-45b3-bc43-d07bb800fcd2)
