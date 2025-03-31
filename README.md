@@ -28,3 +28,15 @@ Details:
     - Open that folder in your IDE of choice and now you can run it from there
     - Example:
       ![image](https://github.com/user-attachments/assets/c6a1b213-d864-43cf-a21c-d16e34322f29)
+Editing:
+- Allowed:
+  - Comments
+  - Speed improvements
+  - Bug fixes
+- Disallowed:
+  - Adjusting full code
+  - Reformatting
+  - Deleting important or used parts
+
+Here is the example of the code running:
+- https://www.youtube.com/watch?v=pYCI2Ssgr_w
